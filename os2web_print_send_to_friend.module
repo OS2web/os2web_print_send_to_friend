@@ -45,6 +45,14 @@ function os2web_print_send_to_friend_menu() {
     'access callback' => 'os2web_print_send_to_friend_bullet_point_access',
   );
 
+  $items['dagsorden/%/print'] = array(
+    'title' => 'Print Dagsorden',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'os2web_print_send_to_friend_print_dagsorden',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
@@ -57,7 +65,7 @@ function os2web_print_send_to_friend_menu() {
 function os2web_print_send_to_friend_print_bullet_point($bullet_point_id) {
   $bullet_point = node_load($bullet_point_id);
   if (strcmp($bullet_point->type, 'os2web_meetings_bullet') == 0) {
-    $html = '<h1>' . $bullet_point->title . '</h1>';
+    $html = '<h2>' . $bullet_point->title . '</h2>';
 
     foreach ($bullet_point->field_os2web_meetings_attach['und'] as $attachment_id) {
       $attachment = node_load($attachment_id['target_id']);
@@ -150,3 +158,39 @@ function os2web_print_send_to_friend_send_to_friend($bullet_point_id) {
 
   $system->mail($message);
 }
+
+/**
+ * Prepares the pring version of meeting and all its bullet point and bullet point attachments.
+ *
+ * @param int    $meeting_id
+ *   meeting id
+ */
+function os2web_print_send_to_friend_print_dagsorden($meeting_id){
+  //hiding regions not needed for printing
+  //drupal_add_css(drupal_get_path('theme', 'balk') . '/css/style.css');
+  drupal_add_css('.view-display-id-attachment_2{ display: none;}', 'inline');
+  drupal_add_css('.view-display-id-attachment_1{ display: none;}', 'inline');
+  drupal_add_css('.view-display-id-attachment_5{ display: none;}', 'inline');
+  drupal_add_css('.view-display-id-attachment_4{ display: none;}', 'inline');
+  drupal_add_css('.hide-on-print{ display: none; }', 'inline');
+
+  //changing table width
+  drupal_add_css('table{ width: 100%;}', 'inline');
+
+  $view = views_get_view('os2web_meetings_meeting_details');
+  $view->set_display('page');
+  $view->set_arguments(array($meeting_id));
+  $view->execute();
+  //print $view->render();
+  $html .= $view->render();
+
+  $meeting = node_load($meeting_id);
+  if (isset($meeting->field_os2web_meetings_bullets['und'])){
+    foreach($meeting->field_os2web_meetings_bullets['und'] as $bullet_point){
+      $html .= os2web_print_send_to_friend_print_bullet_point($bullet_point['target_id']);      
+    }
+  }
+
+  return $html;
+}
+
