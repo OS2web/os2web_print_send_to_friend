@@ -174,8 +174,11 @@ function os2web_print_send_to_friend_print_dagsorden($meeting_id){
   drupal_add_css('.view-display-id-attachment_4{ display: none;}', 'inline');
   drupal_add_css('.hide-on-print{ display: none; }', 'inline');
 
-  //changing table width
+  //changing table width, overrriding styles to match website representation
   drupal_add_css('table{ width: 100%;}', 'inline');
+
+  //$overriden_css = 'tr,td { background: none;}';
+  //drupal_add_css($overriden_css, 'inline');
 
   $view = views_get_view('os2web_meetings_meeting_details');
   $view->set_display('page');
