@@ -1,0 +1,25 @@
+body {
+  font: 11px/1.231 verdana;
+}
+table, th, td {
+  border: 1px solid #d9d9d9;
+}
+table{ 
+  width: 100%; 
+  margin: 1.2em 0;
+}
+th {
+  padding: 7px 5px;
+  background-color: #D6D6D6;
+  color: #000;
+}
+td { 
+background: none;
+}
+
+.view-display-id-attachment_2{ display: none;}
+.view-display-id-attachment_1{ display: none;}
+.view-display-id-attachment_5{ display: none;}
+.view-display-id-attachment_4{ display: none;}
+.view-display-id-attachment_9{ display: none;}
+.hide-on-print{ display: none; }
