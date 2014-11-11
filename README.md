@@ -1,3 +1,9 @@
+Deprecated
+==========
+This repository is deprecated, and may be deleted.
+
+Use <https://github.com/OS2WebCore/os2web_print_send_to_friend>
+
 OS2Web Print/Send to friend buttons
 ==============================
 
